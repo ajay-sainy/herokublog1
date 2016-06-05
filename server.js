@@ -16,17 +16,15 @@ var Resource = app.resource = restful.model('article', mongoose.Schema({
     lastUpdateDate: { type: Date, default: Date.now }
   }))
   .methods(['get', 'post', 'put', 'delete']);
-  
+
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
 app.use(methodOverride());
-app.use('/static', express.static('public'));
+app.use('/', express.static('public'));
 
 mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
-
-
 
 //TODO : Authenticate
 Resource.register(app, '/articles');
