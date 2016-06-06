@@ -24,7 +24,7 @@ app.use(bodyParser.json({type:'application/vnd.api+json'}));
 app.use(methodOverride());
 app.use('/', express.static('public'));
 
-mongoose.connect("mongodb://test:test@ds021943.mlab.com:29413/blog");
+mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
 
 //TODO : Authenticate
 Resource.register(app, '/articles');
