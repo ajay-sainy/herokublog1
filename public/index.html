@@ -118,14 +118,14 @@
                   <img src="img/article head/unsplash-2.jpg" class="img-responsive">
                   <div class="panel-body">
                     <div class="blog-post-meta">
-                      <span class="label label-light label-primary">News</span>
-                      <p class="blog-post-date pull-right">{{post.createdOn | date}}</p>
+                      <span class="label label-light label-primary" ng-repeat="tag in post.tags">{{tag}}</span>
+                      <p class="blog-post-date pull-right">{{post.creationDate | date}}</p>
                     </div>
                     <div class="blog-post-content">
                       <a href="#">
                         <h2 class="blog-post-title">{{post.title}}</h2>
                       </a>
-                      <p>{{post.body[0] | limitTo:100}}...</p>
+                      <p>{{post.conent | limitTo:100}}...</p>
                       <a class="btn btn-info" href="#">Read more</a>
                       <a class="blog-post-share pull-right" href="#">
                         <i class="material-icons"></i>
