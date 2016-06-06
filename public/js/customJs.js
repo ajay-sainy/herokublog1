@@ -13,7 +13,7 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     blog.title = "AngularJS Blog App";
     
     blog.posts = {};
-    $http.get('https://api.myjson.com/bins/285y2').success(function(data){
+    $http.get('https://bhole.herokuapp.com/articles').success(function(data){
       blog.posts = data;
     });
     
