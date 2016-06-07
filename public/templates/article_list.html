@@ -1,0 +1,50 @@
+<div class="row">
+   <div class="col-sm-6" >
+      <section class="blog-post" ng-repeat="post in blog.posts" ng-if="$even">
+         <div class="panel panel-default">
+            <img src="img/article head/unsplash-2.jpg" class="img-responsive">
+            <div class="panel-body">
+               <div class="blog-post-meta">
+                  <span class="label label-light label-primary" ng-repeat="tag in post.tags">{{tag}}</span>
+                  <p class="blog-post-date pull-right">{{post.creationDate | date}}</p>
+               </div>
+               <div class="blog-post-content">
+                  <a ng-href="#/detail">
+                     <h2 class="blog-post-title">{{post.title}}</h2>
+                  </a>
+                  <p>{{post.conent | limitTo:100}}...</p>
+                  <a class="btn btn-info" ng-href="#/detail">Read more</a>
+                  <a class="blog-post-share pull-right" href="#">
+                     <i class="material-icons"></i>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- /.blog-post -->
+   </div>
+   <div class="col-sm-6">
+      <section class="blog-post" ng-repeat="post in blog.posts" ng-if="$odd">
+         <div class="panel panel-default">
+            <img src="img/article head/unsplash-2.jpg" class="img-responsive">
+            <div class="panel-body">
+               <div class="blog-post-meta">
+                  <span class="label label-light label-primary" ng-repeat="tag in post.tags">{{tag}}</span>
+                  <p class="blog-post-date pull-right">{{post.creationDate | date}}</p>
+               </div>
+               <div class="blog-post-content">
+                  <a ng-href="#/detail">
+                     <h2 class="blog-post-title">{{post.title}}</h2>
+                  </a>
+                  <p>{{post.conent | limitTo:100}}...</p>
+                  <a class="btn btn-info" ng-href="#/detail">Read more</a>
+                  <a class="blog-post-share pull-right" href="#">
+                     <i class="material-icons"></i>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- /.blog-post -->
+   </div>
+</div>

@@ -5,9 +5,9 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
 */
 
 (function(){
-  var app = angular.module('blogApp',[]);
+  var app = angular.module('blogApp',['ngRoute']);
   
-  app.controller('BlogController', ['$http', function($http){
+  app.controller('ArticleListController', ['$http', function($http) {
     
     var blog = this;
     blog.title = "AngularJS Blog App";
@@ -40,7 +40,11 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
     
   }]);
   
-  app.controller('CommentController', function(){
+  app.controller('DetailController', function() {
+    
+  });
+
+  app.controller('CommentController', function() {
     this.comment = {};
     this.addComment = function(post){
       this.comment.createdOn = Date.now();
@@ -48,5 +52,29 @@ Simple blog front end demo in order to learn AngularJS - You can add new posts, 
       this.comment ={};
     };
   });
+
+
+
+
+  //Define Routing for app
+  //Uri /article_list -> List all articles and Controller ArticleListController
+  //Uri /ShowOrders -> in details article and Controller DetailController
+  app.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/articles', {
+        templateUrl: 'templates/article_list.html',
+        controller: 'ArticleListController',
+        controllerAs:'blog'
+      }).
+      when('/detail', {
+        templateUrl: 'templates/detail.html',
+        controller: 'DetailController',
+        controllerAs:'detail'
+      }).
+      otherwise({
+        redirectTo: '/articles'
+      });
+  }]);
  
 })();
