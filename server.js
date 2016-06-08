@@ -33,6 +33,5 @@ app.listen(port, function (err) {
 	if (err) { 
 		console.error("Error creating server :" + err.message);
 	}
-
 	console.log("API listening at port ", port);
 });
