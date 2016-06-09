@@ -27,7 +27,24 @@ app.use('/', express.static('public'));
 mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
 
 //TODO : Authenticate
+
 Resource.register(app, '/articles');
+
+// Resource.route('tags', function(req, res, next) {
+//   res.send('I have a recommendation for you!');
+// });
+
+app.get('/tags/:tag', function (req, res) {
+    var article = mongoose.model('article', mongoose.Schema);
+    // find each person with a last name matching 'Ghost'
+    var query = article.find({ tags: req.params.tag });
+
+    // execute the query at a later time
+    query.exec(function (err, articles) {
+      if (err) return handleError(err);
+        res.json(articles);
+    })
+});
 
 app.listen(port, function (err) {
 	if (err) { 

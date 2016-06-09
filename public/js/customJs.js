@@ -4,12 +4,8 @@
   
   app.controller('ArticleListController', ['$scope', '$routeParams','$http',function($scope, $routeParams,$http) {
     var blog = this;
-    var tagName = $routeParams.tag;
 
     var getURL = '/articles';
-    if(tagName)  {
-      getURL += '?_id='+tagName;
-    }
 
     blog.posts = {};
     $http.get(getURL).success(function(data) {
@@ -26,16 +22,18 @@
     $http.get('/articles/'+id).success(function(data) {
       article.post = data;
     });   
-               
+
   }]);
 
-  app.controller('ArticleTagController', ['$scope', '$routeParams','$http',function($scope, $routeParams,$http) {
+  app.controller('TagController', ['$scope', '$routeParams','$http',function($scope, $routeParams,$http) {
     var tag = this;
     var tagName = $routeParams.tag;
 
     tag.posts = {};
-    $http.get('/article_tag/'+tagName).success(function(data) {
+    $http.get('/tags/'+tagName).success(function(data) {
       tag.posts = data;
+    }).error(function(data,status){
+      console.log(data+" "+status);
     });   
                
   }]);
@@ -65,10 +63,10 @@
         controller: 'ArticleController',
         controllerAs:'article'
       }).
-      when('/article_tag/:tag', {
+      when('/tags/:tag', {
         templateUrl: 'templates/article_list.html',
-        controller: 'ArticleTagController',
-        controllerAs:'tag'
+        controller: 'TagController',
+        controllerAs:'blog'
       }).
       otherwise({
         redirectTo: '/articles'

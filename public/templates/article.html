@@ -4,7 +4,9 @@
       <img src="img/technology/unsplash-2.jpg" class="img-responsive">
       <div class="panel-body">
         <div class="blog-post-meta">          
-          <span class="label label-light label-warning" ng-repeat="tag in article.tags">{{tag}}</span>
+          <a ng-href="#/tags/{{tag}}" ng-repeat="tag in article.post.tags"> 
+            <span class="label label-light label-warning" >{{tag}}</span>
+          </a>
           <p class="blog-post-date pull-right">{{article.post.creationDate | date}}</p>
         </div>
         <div class="blog-post-content">

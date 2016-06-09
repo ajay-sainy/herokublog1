@@ -5,7 +5,7 @@
             <a ng-href="#/article/{{post._id}}"><img src="img/article head/unsplash-2.jpg" class="img-responsive"></a>
             <div class="panel-body">
                <div class="blog-post-meta">
-                  <a ng-href="#/articles?tag={{post._id}}" ng-repeat="tag in post.tags"> 
+                  <a ng-href="#/tags/{{tag}}" ng-repeat="tag in post.tags"> 
                      <span class="label label-light label-primary">{{tag}}</span>
                   </a>
                   
@@ -27,7 +27,30 @@
       <!-- /.blog-post -->
    </div>
    <div class="col-sm-6">
-      
+      <section class="blog-post" ng-repeat="post in blog.posts" ng-if="$odd">
+         <div class="panel panel-default">
+            <a ng-href="#/article/{{post._id}}"><img src="img/article head/unsplash-2.jpg" class="img-responsive"></a>
+            <div class="panel-body">
+               <div class="blog-post-meta">
+                  <a ng-href="#/tags/{{tag}}" ng-repeat="tag in post.tags"> 
+                     <span class="label label-light label-primary">{{tag}}</span>
+                  </a>
+                  
+                  <p class="blog-post-date pull-right">{{post.creationDate | date}}</p>
+               </div>
+               <div class="blog-post-content">
+                  <a ng-href="#/article/{{post._id}}">
+                     <h2 class="blog-post-title">{{post.title}}</h2>
+                  </a>
+                  <p>{{post.conent | limitTo:100}}...</p>
+                  <a class="btn btn-info" ng-href="#/article/{{post._id}}">Read more</a>
+                  <a class="blog-post-share pull-right" href="#">
+                     <i class="material-icons"></i>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </section>
       <!-- /.blog-post -->
    </div>
 </div>
