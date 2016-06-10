@@ -3,7 +3,7 @@
 
   app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log', function($scope, $routeParams, $http, $log) {
     var blog = this;
-    var count = 8;
+    var count = 10;
     var pageSize = 2;
     var selectedPage = 0;
 
@@ -13,7 +13,7 @@
 
       $log.debug('pageQuery ', pageQuery);
 
-      var getURL = '/articles/'+pageQuery;
+      var getURL = '/articles/' + pageQuery;
 
       blog.posts = {};
       $http.get(getURL).success(function(data) {
@@ -22,11 +22,15 @@
     }
 
     blog.next = function() {
-      blog.loadData(++selectedPage);
+      if (count >= pageSize + ((selectedPage + 1) * pageSize)) {
+        blog.loadData(++selectedPage);
+      }
     };
 
     blog.prev = function() {
-      blog.loadData(--selectedPage);
+      if (selectedPage>0) {
+        blog.loadData(--selectedPage);  
+      }
     };
 
     blog.loadData(0);
@@ -47,15 +51,19 @@
   app.controller('TagController', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
     var tag = this;
     var tagName = $routeParams.tag;
-
+    var getURL = '/tags';
+    if(tagName) {
+      getURL += '/'+tagName;
+    }    
     tag.posts = {};
-    $http.get('/tags/' + tagName).success(function(data) {
+    $http.get(getURL).success(function(data) {
       tag.posts = data;
     }).error(function(data, status) {
       console.log(data + " " + status);
     });
 
   }]);
+
 
   app.controller('CommentController', function() {
     this.comment = {};

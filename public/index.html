@@ -66,7 +66,7 @@
                      </ul> -->
                   </li>
                   <li>
-                     <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Salesforce</a>
+                     <a ng-href="#/tags/salesforce" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Salesforce</a>
                      <!-- <ul class="dropdown-menu">
                         <li><a href="#">Image post</a></li>
                         <li><a href="#">Video post</a></li>
@@ -122,23 +122,15 @@
                   </div>
                </div>
                <!-- /.sidebar-module -->
-               <div class="sidebar-module">
+               <div class="sidebar-module" ng-controller="TagController">
                   <div class="panel panel-default">
                      <div class="panel-body">
                         <h4>Categories</h4>
                         <ol class="categories list-unstyled">
-                           <li>
-                              <a class="label label-light label-primary" href="#">News</a>
-                              <span class="label label-light label-default pull-right">8</span>
-                           </li>
-                           <li>
-                              <a class="label label-light label-warning" href="#">Apps</a>
-                              <span class="label label-light label-default pull-right">5</span>
-                           </li>
-                           <li>
-                              <a class="label label-light label-info" href="#">Branding</a>
-                              <span class="label label-light label-default pull-right">9</span>
-                           </li>
+                           <li ng-repeat="tag in tag.posts">
+                              <a class="label label-light label-primary" href="#">tag.name</a>
+                              <span class="label label-light label-default pull-right">tag.noOfPosts</span>
+                           </li>                           
                         </ol>
                      </div>
                   </div>
