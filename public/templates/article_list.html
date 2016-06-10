@@ -1,3 +1,4 @@
+<div>
 <div class="row">
    <div class="col-sm-6" >
       <section class="blog-post" ng-repeat="post in blog.posts" ng-if="$even">
@@ -53,4 +54,22 @@
       </section>
       <!-- /.blog-post -->
    </div>
+
+</div>
+
+               <nav>
+                  <ul class="pager">
+                     <li>
+                        <a class="withripple" ng-click="blog.prev()">
+                           Previous
+                        </a>
+                     </li>
+                     <li>
+                        <a class="withripple" ng-click="blog.next()">
+                           Next
+                           <div class="ripple-container"></div>
+                        </a>
+                     </li>
+                  </ul>
+               </nav>
 </div>

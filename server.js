@@ -24,8 +24,8 @@ app.use(bodyParser.json({type:'application/vnd.api+json'}));
 app.use(methodOverride());
 app.use('/', express.static('public'));
 
-mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
-
+//mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
+mongoose.connect("mongodb://localhost/blogdb");
 //TODO : Authenticate
 
 Resource.register(app, '/articles');
@@ -36,12 +36,25 @@ Resource.register(app, '/articles');
 
 app.get('/tags/:tag', function (req, res) {
     var article = mongoose.model('article', mongoose.Schema);
-    // find each person with a last name matching 'Ghost'
+    
     var query = article.find({ tags: req.params.tag });
 
-    // execute the query at a later time
     query.exec(function (err, articles) {
       if (err) return handleError(err);
+        res.json(articles);
+    })
+});
+
+app.get('/articles/:perPage?/:page?', function (req, res) {
+    var article = mongoose.model('article', mongoose.Schema);
+
+    var query = article.find({});
+
+    query
+    .limit(parseInt(req.params.perPage))
+    .skip( parseInt((req.params.page * req.params.perPage)) || 0)
+    .exec(function (err, articles) {
+      if (err) return console.error(err);
         res.json(articles);
     })
 });
