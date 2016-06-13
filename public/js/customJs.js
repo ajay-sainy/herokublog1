@@ -4,7 +4,7 @@
   app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log', function($scope, $routeParams, $http, $log) {
     var blog = this;
     var count = 10;
-    var pageSize = 2;
+    var pageSize = 3;
     var selectedPage = 0;
 
     blog.loadData = function(selectedPage) {
@@ -22,14 +22,14 @@
     }
 
     blog.next = function() {
-      if (count >= pageSize + ((selectedPage + 1) * pageSize)) {
+      if (count + pageSize > pageSize + ((selectedPage + 1) * pageSize)) {
         blog.loadData(++selectedPage);
       }
     };
 
     blog.prev = function() {
-      if (selectedPage>0) {
-        blog.loadData(--selectedPage);  
+      if (selectedPage > 0) {
+        blog.loadData(--selectedPage);
       }
     };
 
@@ -48,14 +48,81 @@
 
   }]);
 
+  app.controller('SubscribeController', ['$scope', '$http', function($scope, $http) {
+    var subscribe = this;
+    subscribe.isSubscribed = false
+    var validated;
+    subscribe.addSubscription = function() {
+      var name = subscribe.name;
+      var email = subscribe.email;
+
+      subscribe.error = "";
+
+      var emailvalidation = checkForEmailFormat(email);
+      if (emailvalidation === false) {
+        subscribe.error = "Invalid email entered !!!";
+      }
+
+      var lengthValidation = checkForNameAndEmailLength(name, email);
+      if (lengthValidation === false) {
+        subscribe.error = "Name and Email length should be less than 50";
+      }
+
+      if (true) {
+        var data = JSON.stringify({
+          name: subscribe.name,
+          email: subscribe.email
+        });
+        console.log('data ' + data);
+        $http.post("/Subscribe", data)
+          .success(function(data, status) {
+            if (data.status !== 200) {
+              subscribe.error = data.error;
+            } else {
+              subscribe.isSubscribed = true;
+              subscribe.error = "";
+            }
+            console.log(data + ' ' + status);
+          })
+          .error(function(data, status) {
+            subscribe.error = data;
+          });
+      }
+    }
+
+    function checkForNameAndEmailLength(name, email) {
+      validated = false;
+      if (name.length < 50 && email.length < 50) {
+        validated = true;
+      }
+    }
+
+    function checkForEmailFormat(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (re.test(email)) {
+        validated = true;
+      } else {
+        validated = false;
+      }
+      return validated;
+      // return true;
+    }
+
+
+
+  }]);
+
   app.controller('TagController', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
     var tag = this;
     var tagName = $routeParams.tag;
     var getURL = '/tags';
-    if(tagName) {
-      getURL += '/'+tagName;
-    }    
+
+    if (tagName) {
+      getURL += '/' + tagName;
+    }
+
     tag.posts = {};
+
     $http.get(getURL).success(function(data) {
       tag.posts = data;
     }).error(function(data, status) {
@@ -77,8 +144,9 @@
   //Define Routing for app
   //Uri /article_list -> List all articles and Controller ArticleListController
   //Uri /ShowOrders -> in details article and Controller ArticleController
-  app.config(['$routeProvider',
-    function($routeProvider) {
+  app.config(['$routeProvider', '$locationProvider',
+    function($routeProvider, $locationProvider) {
+      //$locationProvider.html5Mode(true);
       $routeProvider.
       when('/articles', {
         templateUrl: 'templates/article_list.html',

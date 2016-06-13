@@ -5,6 +5,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="">
+      <base href="/" />
       <meta name="author" content="">
       <title>My Blog</title>
       <!-- Loading animation -->
@@ -46,17 +47,17 @@
             </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                <ul class="nav navbar-nav">
-                  <li>
+                  <!-- <li>
                      <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Top posts</a>
-                     <!-- <ul class="dropdown-menu">
+                     <ul class="dropdown-menu">
                         <li><a href="#">Fashion</a></li>
                         <li><a href="#">Food</a></li>
                         <li><a href="#">Music</a></li>
                         <li><a href="#">Photography</a></li>
                         <li><a href="#">Technology</a></li>
                         <li><a href="#">Travel</a></li>
-                     </ul> -->
-                  </li>
+                     </ul>
+                  </li> -->
                   <li>
                      <a ng-href="#/tags/android" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Android</a>
                      <!-- <ul class="dropdown-menu">
@@ -98,14 +99,14 @@
       </div>
       <div class="container blog-content">
          <div class="row">
-            <div class="col-sm-8 blog-main">
+            <div class="col-sm-9 blog-main">
                
                   <div ng-view></div>
 
 
             </div>
             <!-- /.blog-main -->
-            <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+            <div class="col-sm-3 col-sm-offset-0 blog-sidebar">
                <div class="sidebar-module">
                   <div class="form-group is-empty">
                      <input type="text" class="form-control" placeholder="Search">
@@ -122,21 +123,21 @@
                   </div>
                </div>
                <!-- /.sidebar-module -->
-               <div class="sidebar-module" ng-controller="TagController">
+               <!-- <div class="sidebar-module" ng-controller="TagController">
                   <div class="panel panel-default">
                      <div class="panel-body">
                         <h4>Categories</h4>
                         <ol class="categories list-unstyled">
                            <li ng-repeat="tag in tag.posts">
-                              <a class="label label-light label-primary" href="#">tag.name</a>
-                              <span class="label label-light label-default pull-right">tag.noOfPosts</span>
+                              <a class="label label-light label-primary" href="#">{{tag.name}}</a>
+                              <span class="label label-light label-default pull-right">{{tag.noOfPosts}}</span>
                            </li>                           
                         </ol>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <!-- /.sidebar-module -->
-               <div class="sidebar-module">
+               <!-- <div class="sidebar-module">
                   <div class="panel panel-default">
                      <div class="panel-body">
                         <h4>Archives</h4>
@@ -156,23 +157,29 @@
                         </ol>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <!-- /.sidebar-module -->
-               <div class="sidebar-module">
+               <div class="sidebar-module" ng-controller="SubscribeController as user">
                   <div class="panel panel-default">
                      <div class="panel-body">
                         <h4>Newsletter</h4>
-                        <div class="form-group label-floating form-group-sm is-empty">
-                           <label class="control-label" for="name">Name</label>
-                           <input type="text" id="name" class="form-control">
-                           <span class="material-input"></span>
+                        <div ng-hide="user.isSubscribed">
+                           <div class="form-group label-floating form-group-sm is-empty">
+                              <label class="control-label" for="name">Please Enter Name</label>
+                              <input type="text" id="name" class="form-control" ng-model="user.name">
+
+                           </div>
+                           <div class="form-group label-floating form-group-sm is-empty">
+                              <label class="control-label" for="email">Please Enter E-mail</label>
+                              <input type="text" id="email" class="form-control" ng-model="user.email">
+                              <span class="material-input"></span>
+                           </div>
+                           <a href="#" ng-click="user.addSubscription()" class="btn btn-default btn-raised btn-sm btn-block">Subscribe</a>
+                           <span ng-show="user.error.length">{{user.error}}</span>
                         </div>
-                        <div class="form-group label-floating form-group-sm is-empty">
-                           <label class="control-label" for="email">E-mail</label>
-                           <input type="text" id="email" class="form-control">
-                           <span class="material-input"></span>
+                        <div ng-show="user.isSubscribed">
+                           <h5>Thank you for the subscription !!!</h5>
                         </div>
-                        <a href="#" class="btn btn-default btn-raised btn-sm btn-block">Subscribe</a>
                      </div>
                   </div>
                </div>
@@ -201,13 +208,12 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-2">
-                     <i class="material-icons brand"></i>
+                     <!-- <i class="material-icons brand"></i> -->
                   </div>
                   <div class="col-sm-8 text-center offset">
                      <ul class="list-inline">
-                        <li><a href="#">Home</a></li>
+                        <li><a ng-href="#/articles">Home</a></li>
                         <li><a href="#">About</a></li>
-                        <li><a href="#">Documentation</a></li>
                         <li><a href="#">Contact</a></li>
                      </ul>
                   </div>
@@ -234,8 +240,8 @@
          $('body').materialScrollTop();
       </script>
 
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-route.js"></script>
+      <script src="/js/angular.js"></script>
+      <script src="/js/angular-route.js"></script>
       <script type="text/javascript" src="js/customJs.js"></script>
    </body>
 </html>
