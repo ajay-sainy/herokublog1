@@ -19,8 +19,8 @@ app.use(bodyParser.json({
 app.use(methodOverride());
 app.use('/', express.static('public'));
 
-//mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
-mongoose.connect("mongodb://localhost/blogdb");
+mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
+// mongoose.connect("mongodb://localhost/blogdb");
 //TODO : Authenticate
 
 var Article = app.resource = restful.model('article', mongoose.Schema({
