@@ -38,7 +38,7 @@ var Article = app.resource = restful.model('article', mongoose.Schema({
             default: Date.now
         }
     }))
-    .methods(['get', 'post']);
+    .methods(['get', 'post','delete']);
 
 var SubscriptionSchema = new mongoose.Schema({
     name: {

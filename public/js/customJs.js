@@ -1,23 +1,27 @@
 (function() {
-  var app = angular.module('blogApp', ['ngRoute']);
+  var app = angular.module('blogApp', ['ngRoute','infinite-scroll']);
 
   app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log', function($scope, $routeParams, $http, $log) {
     var blog = this;
-    var count = 10;
+    var count = 14;
     var pageSize = 3;
-    var selectedPage = 0;
+    var selectedPage = 0;    
+    blog.posts = [];
+    
+    blog.loadMore = function() {      
+      blog.next();      
+    };
 
     blog.loadData = function(selectedPage) {
-
       var pageQuery = pageSize + '/' + (selectedPage * pageSize);
-
-      $log.debug('pageQuery ', pageQuery);
-
+      $log.debug('pageQuery ', pageQuery);      
       var getURL = '/articles/' + pageQuery;
-
-      blog.posts = {};
       $http.get(getURL).success(function(data) {
-        blog.posts = data;
+        //blog.posts = data;
+        angular.forEach(data, function(value, key) {
+          blog.posts.push(value);          
+        });
+        $log.debug('blog.posts ', blog.posts);
       });
     }
 
@@ -27,11 +31,11 @@
       }
     };
 
-    blog.prev = function() {
-      if (selectedPage > 0) {
-        blog.loadData(--selectedPage);
-      }
-    };
+    // blog.prev = function() {
+    //   if (selectedPage > 0) {
+    //     blog.loadData(--selectedPage);
+    //   }
+    // };
 
     blog.loadData(0);
 
