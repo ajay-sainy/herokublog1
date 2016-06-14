@@ -3,7 +3,7 @@
 
   app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log', function($scope, $routeParams, $http, $log) {
     var blog = this;
-    var count = 14;
+    var count = 11;
     var pageSize = 3;
     var selectedPage = 0;    
     blog.posts = [];
@@ -16,8 +16,7 @@
       var pageQuery = pageSize + '/' + (selectedPage * pageSize);
       $log.debug('pageQuery ', pageQuery);      
       var getURL = '/articles/' + pageQuery;
-      $http.get(getURL).success(function(data) {
-        //blog.posts = data;
+      $http.get(getURL).success(function(data) {        
         angular.forEach(data, function(value, key) {
           blog.posts.push(value);          
         });
