@@ -10,9 +10,8 @@
           <p class="blog-post-date pull-right">{{article.post.creationDate | date}}</p>
         </div>
         <div class="blog-post-content">
-          <h2 class="blog-post-title">{{article.post.title}}</h2>
-          
-          {{article.post.content}}
+          <h2 class="blog-post-title">{{article.post.title}}</h2>          
+          <p ng-bind-html="article.post.content"></p>
         </div>
       </div>
     </div>

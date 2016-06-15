@@ -11,13 +11,15 @@
                      <span class="label label-light label-primary">{{tag}}</span>
                   </a>
                   
+
+                  
                   <p class="blog-post-date pull-right">{{post.creationDate | date}}</p>
                </div>
                <div class="blog-post-content">
                   <a ng-href="#/article/{{post._id}}">
                      <h2 class="blog-post-title">{{post.title}}</h2>
                   </a>
-                  <p>{{post.content | limitTo:100}}...</p>
+                  <p ng-bind-html="post.content | limitTo:100"></p>                  
                   <a class="btn btn-info" ng-href="#/article/{{post._id}}">Read more</a>
                   <a class="blog-post-share pull-right" href="#">
                      <i class="material-icons"></i>
@@ -45,7 +47,7 @@
                      <a ng-href="#/article/{{post._id}}">
                         <h2 class="blog-post-title">{{post.title}}</h2>
                      </a>
-                     <p>{{post.content | limitTo:100}}...</p>
+                     <p ng-bind-html="post.content | limitTo:100"></p>
                      <a class="btn btn-info" ng-href="#/article/{{post._id}}">Read more</a>
                      <a class="blog-post-share pull-right" href="#">
                         <i class="material-icons"></i>

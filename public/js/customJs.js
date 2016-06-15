@@ -1,7 +1,7 @@
 (function() {
-  var app = angular.module('blogApp', ['ngRoute','infinite-scroll']);
+  var app = angular.module('blogApp', ['ngRoute','infinite-scroll','ngSanitize']);
 
-  app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log', function($scope, $routeParams, $http, $log) {
+  app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log','$sce', function($scope, $routeParams, $http, $log,$sce) {
     var blog = this;
     var count = 11;
     var pageSize = 3;
@@ -40,7 +40,7 @@
 
   }]);
 
-  app.controller('ArticleController', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+  app.controller('ArticleController', ['$scope', '$routeParams', '$http','$sce', function($scope, $routeParams, $http,$sce) {
     var article = this;
     var id = $routeParams.id;
 
