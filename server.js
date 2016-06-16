@@ -19,7 +19,7 @@ app.use(bodyParser.json({
 app.use(methodOverride());
 app.use('/', express.static('public'));
 
-mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
+mongoose.connect("mongodb://localhost/blogdb");
 // mongoose.connect("mongodb://localhost/blogdb");
 //TODO : Authenticate
 
@@ -160,6 +160,22 @@ app.get('/articles/:limit?/:skip?', function(req, res) {
             res.json(articles);
         })
 });
+
+app.get('/articlesCount',function(req,res) {    
+    res.send(JSON.stringify({ count: getArticlesCount() }));
+});
+
+function getArticlesCount() {
+    var article = mongoose.model('article', mongoose.Schema);
+    article.count({}, function(err, count) {
+        console.log( "Number of docs: ", count );
+        if(err) {
+            console.log( "Error in count ", count );
+            count = 0;
+        }
+        return count;
+    });
+}
 
 app.listen(port, function(err) {
     if (err) {

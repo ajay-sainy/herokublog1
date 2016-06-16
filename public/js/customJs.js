@@ -1,24 +1,24 @@
 (function() {
-  var app = angular.module('blogApp', ['ngRoute','infinite-scroll','ngSanitize']);
+  var app = angular.module('blogApp', ['ngRoute', 'infinite-scroll', 'ngSanitize']);
 
-  app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log','$sce', function($scope, $routeParams, $http, $log,$sce) {
+  app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log', '$sce', function($scope, $routeParams, $http, $log, $sce) {
     var blog = this;
     var count = 11;
     var pageSize = 3;
-    var selectedPage = 0;    
+    var selectedPage = 0;
     blog.posts = [];
-    
-    blog.loadMore = function() {      
-      blog.next();      
+
+    blog.loadMore = function() {
+      blog.next();
     };
 
     blog.loadData = function(selectedPage) {
       var pageQuery = pageSize + '/' + (selectedPage * pageSize);
-      $log.debug('pageQuery ', pageQuery);      
+      $log.debug('pageQuery ', pageQuery);
       var getURL = '/articles/' + pageQuery;
-      $http.get(getURL).success(function(data) {        
+      $http.get(getURL).success(function(data) {
         angular.forEach(data, function(value, key) {
-          blog.posts.push(value);          
+          blog.posts.push(value);
         });
         $log.debug('blog.posts ', blog.posts);
       });
@@ -30,24 +30,32 @@
       }
     };
 
-    // blog.prev = function() {
-    //   if (selectedPage > 0) {
-    //     blog.loadData(--selectedPage);
-    //   }
-    // };
+    (function getCount() {
+      $http.get('/articlesCount')
+        .success(function(data) {
+          console.log('articlesCount ', data);
+        })
+        .error(function(data, status) {
+          console.log('Error', data);
+        });;
+    })();
 
     blog.loadData(0);
 
   }]);
 
-  app.controller('ArticleController', ['$scope', '$routeParams', '$http','$sce', function($scope, $routeParams, $http,$sce) {
+  app.controller('ArticleController', ['$scope', '$routeParams', '$http', '$sce', function($scope, $routeParams, $http, $sce) {
     var article = this;
     var id = $routeParams.id;
 
     article.post = {};
-    $http.get('/articles/' + id).success(function(data) {
-      article.post = data;
-    });
+    $http.get('/articles/' + id)
+      .success(function(data) {
+        article.post = data;
+      })
+      .error(function(data, status) {
+        console.log('Error', data);
+      });
 
   }]);
 
@@ -71,7 +79,7 @@
         subscribe.error = "Name and Email length should be less than 50";
       }
 
-      if (true) {
+      if (validated) {
         var data = JSON.stringify({
           name: subscribe.name,
           email: subscribe.email
