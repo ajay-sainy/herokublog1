@@ -1,7 +1,7 @@
 <div class="row">
   <section class="blog-post">
     <div class="panel panel-default">
-      <img ng-src="img/posts/{{article.post.image}}" class="img-responsive">
+      <img ng-src="{{article.post.imageURL}}" class="img-responsive">
       <div class="panel-body">
         <div class="blog-post-meta">
           <a ng-href="#/tags/{{tag}}" ng-repeat="tag in article.post.tags">

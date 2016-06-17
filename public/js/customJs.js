@@ -3,7 +3,7 @@
 
   app.controller('ArticleListController', ['$scope', '$routeParams', '$http', '$log', '$sce', function($scope, $routeParams, $http, $log, $sce) {
     var blog = this;
-    var count = 11;
+    var count = 0;
     var pageSize = 3;
     var selectedPage = 0;
     blog.posts = [];
@@ -34,6 +34,7 @@
       $http.get('/articlesCount')
         .success(function(data) {
           console.log('articlesCount ', data);
+          count = data.count;
         })
         .error(function(data, status) {
           console.log('Error', data);

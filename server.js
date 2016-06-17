@@ -19,7 +19,7 @@ app.use(bodyParser.json({
 app.use(methodOverride());
 app.use('/', express.static('public'));
 
-mongoose.connect("mongodb://localhost/blogdb");
+mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
 // mongoose.connect("mongodb://localhost/blogdb");
 //TODO : Authenticate
 
@@ -27,7 +27,7 @@ var Article = app.resource = restful.model('article', mongoose.Schema({
         title: String,
         tags: [],
         content: mongoose.Schema.Types.Mixed,
-        image:String,
+        imageURL:String,
         author: String,
         creationDate: {
             type: Date,
@@ -162,10 +162,12 @@ app.get('/articles/:limit?/:skip?', function(req, res) {
 });
 
 app.get('/articlesCount',function(req,res) {    
-    res.send(JSON.stringify({ count: getArticlesCount() }));
+    getArticlesCount(function (count) {
+        res.send(JSON.stringify({ count: count }));
+    });
 });
 
-function getArticlesCount() {
+function getArticlesCount(cb) {
     var article = mongoose.model('article', mongoose.Schema);
     article.count({}, function(err, count) {
         console.log( "Number of docs: ", count );
@@ -173,7 +175,7 @@ function getArticlesCount() {
             console.log( "Error in count ", count );
             count = 0;
         }
-        return count;
+        cb(count);
     });
 }
 

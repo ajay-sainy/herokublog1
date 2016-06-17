@@ -3,7 +3,7 @@
       <section class="blog-post" ng-repeat="post in blog.posts" ng-if=$even>
          <div class="panel panel-default">
             <a ng-href="#/article/{{post._id}}">
-               <img ng-src="img/posts/{{post.image}}" class="img-responsive">
+               <img ng-src="{{post.imageURL}}" class="img-responsive">
             </a>
             <div class="panel-body">
                <div class="blog-post-meta">
@@ -33,7 +33,7 @@
          <section class="blog-post" ng-repeat="post in blog.posts" ng-if=$odd>
             <div class="panel panel-default">
                <a ng-href="#/article/{{post._id}}">
-                  <img ng-src="img/posts/{{post.image}}" class="img-responsive">
+                  <img ng-src="{{post.imageURL}}" class="img-responsive">
                </a>
                <div class="panel-body">
                   <div class="blog-post-meta">
