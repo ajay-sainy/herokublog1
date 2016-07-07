@@ -153,6 +153,14 @@
     };
   });
 
+  app.controller('ContactController', function() {
+    var contact = this;    
+
+    contact.submitContactForm = function() {
+      alert(contact.name+''+contact.email+""+contact.message);  
+    }
+  });
+
   //Define Routing for app
   //Uri /article_list -> List all articles and Controller ArticleListController
   //Uri /ShowOrders -> in details article and Controller ArticleController
@@ -174,6 +182,11 @@
         templateUrl: 'templates/article_list.html',
         controller: 'TagController',
         controllerAs: 'blog'
+      }).
+      when('/contact', {
+        templateUrl: 'templates/contact.html',
+        controller: 'ContactController',
+        controllerAs: 'contact'
       }).
       otherwise({
         redirectTo: '/articles'
