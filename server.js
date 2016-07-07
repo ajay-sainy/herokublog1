@@ -138,7 +138,7 @@ app.get('/tags/:tag', function(req, res) {
     var article = mongoose.model('article', mongoose.Schema);
 
     var query = article.find({
-        tags: req.params.tag
+        tags: { $regex : new RegExp(req.params.tag, "i") }
     });
 
     query.exec(function(err, articles) {
