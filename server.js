@@ -145,12 +145,13 @@ var ContactSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: false,
         required: true,
         trim: true,        
         validate: {
           validator: function(v) {
             var emailRegex =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            console.log(v);
+            console.log('validator',v);
             return emailRegex.test(v); // Assuming email has a text attribute
             
           },
@@ -168,9 +169,7 @@ var ContactSchema = new mongoose.Schema({
     }
 });
 
-var Contact = mongoose.model('Contact', SubscriptionSchema);
-
-Contact.register(app, '/contact');
+var Contact = mongoose.model('contact', ContactSchema);
 
 app.post('/contact', function(req, res) {
     var data = {
@@ -183,6 +182,7 @@ app.post('/contact', function(req, res) {
    
     newMessage.save(function(err) {        
         if (err) {
+            console.log('err1',err);
             return res.send({
                 "status": 500,
                 "error": err.message

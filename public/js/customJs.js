@@ -153,7 +153,7 @@
     };
   });
 
-  app.controller('ContactController', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+  app.controller('ContactController', ['$scope', '$routeParams', '$http', '$location',function($scope, $routeParams, $http,$location) {
     var contact = this;
 
     contact.submitContactForm = function() {
@@ -207,9 +207,9 @@
       clearErrorMessage();
       contact.name = '';
       contact.email = '';
-      contact.message = '';
-      $('#contactSubmittedModal').modal('show');
+      contact.message = '';      
       contact.showSuccessMessage = true;
+      $('#contactSuccessModal').modal('show');
     }
 
     function clearErrorMessage() {
@@ -217,6 +217,13 @@
       contact.emailError = '';
       contact.messageError = '';
     }
+
+    contact.go = function ( path ) {
+      $('#contactSuccessModal').modal('hide');
+      $('body').removeClass('modal-open');
+      $('.modal-backdrop').remove();
+      $location.path( path );
+    };
   }]);
 
   //Define Routing for app
