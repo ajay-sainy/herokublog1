@@ -16,6 +16,8 @@
       <link href="css/material-scrolltop.css" rel="stylesheet">
       <!-- Custom styles for this template -->
       <link href="css/material-blog.css" rel="stylesheet">
+      <!-- custom css -->
+      <link href="css/customCss.css" rel="stylesheet">
       <!-- Fonts -->
       <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -90,13 +92,13 @@
                         <div ng-hide="user.isSubscribed">
                            <div class="form-group label-floating form-group-sm is-empty">
                               <label class="control-label" for="name">Please Enter Name</label>
-                              <input type="text" id="name" class="form-control" ng-model="user.name">
-
+                              <input type="text" id="name" class="form-control" ng-model="user.name"></input>
+                              <span ng-show="user.nameError">{{user.nameError}}</span>
                            </div>
                            <div class="form-group label-floating form-group-sm is-empty">
                               <label class="control-label" for="email">Please Enter E-mail</label>
-                              <input type="text" id="email" class="form-control" ng-model="user.email">
-                              <span class="material-input"></span>
+                              <input type="text" id="email" class="form-control" ng-model="user.email"></input>
+                              <span ng-show="user.emailError">{{user.emailError}}</span>
                            </div>
                            <a href="#" ng-click="user.addSubscription()" class="btn btn-default btn-raised btn-sm btn-block">Subscribe</a>
                            <span ng-show="user.error.length">{{user.error}}</span>

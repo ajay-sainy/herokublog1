@@ -22,7 +22,7 @@ app.use('/', express.static('public'));
 mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
 // mongoose.connect("mongodb://localhost/blogdb");
 //TODO : Authenticate
-
+/** Article Schema start**/
 var Article = app.resource = restful.model('article', mongoose.Schema({
         title: String,
         tags: [],
@@ -40,6 +40,10 @@ var Article = app.resource = restful.model('article', mongoose.Schema({
     }))
     .methods(['get', 'post','delete']);
 
+Article.register(app, '/articles');
+/***************************** Article Schema start **************************************/
+
+/***************************** Subscription Schema start **************************************/
 var SubscriptionSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -71,9 +75,6 @@ var Subscription = mongoose.model('Subscription', SubscriptionSchema);
 
 Subscription.register(app, '/subsciptions');
 
-Article.register(app, '/articles');
-
-// Subscribe.register(app, '/Subscribe');
 
 app.post('/subscribe', function(req, res) {
     var data = {
@@ -133,6 +134,69 @@ app.get('/subscriptions', function(req, res) {
         res.json(articles);
     })
 });
+/***************************** Subscription Schema End **************************************/
+
+/***************************** Contact US Schema End **************************************/
+var ContactSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: true,
+        trim: true,        
+        validate: {
+          validator: function(v) {
+            var emailRegex =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            console.log(v);
+            return emailRegex.test(v); // Assuming email has a text attribute
+            
+          },
+          message: '{VALUE} is invalid email id'
+        },
+    },
+    message:{
+        type: String,
+        required: true,
+        trim: true
+    },
+    creationDate: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+var Contact = mongoose.model('Contact', SubscriptionSchema);
+
+Contact.register(app, '/contact');
+
+app.post('/contact', function(req, res) {
+    var data = {
+        email: req.body.email,
+        name: req.body.name,
+        message:req.body.message
+    };
+
+    var newMessage = new Contact(data);
+   
+    newMessage.save(function(err) {        
+        if (err) {
+            return res.send({
+                "status": 500,
+                "error": err.message
+            });
+        } else {
+            return res.send({
+                "status": 200
+            });
+        }
+    });
+});
+
+/***************************** Contact US Schema End **************************************/
+
 
 app.get('/tags/:tag', function(req, res) {
     var article = mongoose.model('article', mongoose.Schema);
