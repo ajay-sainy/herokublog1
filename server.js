@@ -219,6 +219,7 @@ app.get('/articles/:limit?/:skip?', function(req, res) {
     query
         .limit(parseInt(req.params.limit))
         .skip(parseInt((req.params.skip)))
+        .sort({creationDate:-1})
         .exec(function(err, articles) {
             if (err) return console.error(err);
             res.json(articles);
