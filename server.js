@@ -2,28 +2,30 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
     morgan = require('morgan'),
-    restful = require('node-restful'),
-    mongoose = restful.mongoose,
+    mongoose = require('mongoose'),
     app = express(),
-    port = process.env.PORT || 3000;
+    port = process.env.PORT || 3001;
 
+app.use(function(req, res, next) {
+  var allowedOrigins = ['http://localhost:3000'];
+  var origin = req.headers.origin;
+  if(allowedOrigins.indexOf(origin) > -1){
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  next();
+});
 
-app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
     'extended': 'true'
 }));
 app.use(bodyParser.json());
-app.use(bodyParser.json({
-    type: 'application/vnd.api+json'
-}));
 app.use(methodOverride());
-app.use('/', express.static('public'));
 
 mongoose.connect("mongodb://test:test@ds021943.mlab.com:21943/blog");
 // mongoose.connect("mongodb://localhost/blogdb");
 //TODO : Authenticate
 /** Article Schema start**/
-var Article = app.resource = restful.model('article', mongoose.Schema({
+var ArticleSchema = new mongoose.Schema({
         title: String,
         tags: [],
         content: mongoose.Schema.Types.Mixed,
@@ -37,10 +39,10 @@ var Article = app.resource = restful.model('article', mongoose.Schema({
             type: Date,
             default: Date.now
         }
-    }))
-    .methods(['get', 'post','delete']);
+    });
+var Article = mongoose.model('article',ArticleSchema);
 
-Article.register(app, '/articles');
+// Article.register(app, '/articles');
 /***************************** Article Schema start **************************************/
 
 /***************************** Subscription Schema start **************************************/
@@ -73,7 +75,7 @@ var SubscriptionSchema = new mongoose.Schema({
 
 var Subscription = mongoose.model('Subscription', SubscriptionSchema);
 
-Subscription.register(app, '/subsciptions');
+// Subscription.register(app, '/subsciptions');
 
 
 app.post('/subscribe', function(req, res) {
@@ -104,7 +106,6 @@ app.post('/subscribe', function(req, res) {
             }
         })
     });
-
 
     newSubscription.save(function(err) {
         console.log(' err ' + err);
@@ -211,6 +212,7 @@ app.get('/tags/:tag', function(req, res) {
     })
 });
 
+//Get all the articles
 app.get('/articles/:limit?/:skip?', function(req, res) {
     var article = mongoose.model('article', mongoose.Schema);
 
@@ -220,6 +222,19 @@ app.get('/articles/:limit?/:skip?', function(req, res) {
         .limit(parseInt(req.params.limit))
         .skip(parseInt((req.params.skip)))
         .sort({creationDate:-1})
+        .exec(function(err, articles) {
+            if (err) return console.error(err);
+            res.json(articles);
+        })
+});
+
+//Get particular article
+app.get('/article/:id', function(req, res) {
+    var article = Article;
+    console.log("Getting article with id "+req.params.id);
+    var query = article.findById(req.params.id);
+
+    query        
         .exec(function(err, articles) {
             if (err) return console.error(err);
             res.json(articles);

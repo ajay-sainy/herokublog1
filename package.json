@@ -9,14 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^4.4.19",
-    "node-restful": "^0.2.5",
     "body-parser": "*",
-    "method-override" : "*",
-    "morgan" : "*",
-    "express" : "*"
+    "cors": "^2.7.1",
+    "express": "*",
+    "method-override": "*",
+    "mongoose": "^4.4.19",
+    "morgan": "*",
+    "node-restful": "^0.2.5"
   },
   "engines": {
-    "node" : "4.4.5"
+    "node": "4.4.5"
   }
 }
