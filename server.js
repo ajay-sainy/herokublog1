@@ -7,7 +7,7 @@ var express = require('express'),
     port = process.env.PORT || 3001;
 
 app.use(function(req, res, next) {
-  var allowedOrigins = ['http://localhost:3000','ajay-sainy.github.io/blog','ajay-sainy.github.io'];
+  var allowedOrigins = ['http://localhost:3000','https://ajay-sainy.github.io/blog','https://ajay-sainy.github.io'];
   var origin = req.headers.origin;
   if(allowedOrigins.indexOf(origin) > -1){
        res.setHeader('Access-Control-Allow-Origin', origin);
